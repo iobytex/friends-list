@@ -283,7 +283,7 @@ const updateFriendList = useCallback(() => {
           <Form.Control type="email" placeholder="Email" onChange={onChangeEmail} value={email} />
         </Form.Group>
         <Button variant={"primary"} type={"submit"} onClick={handleAddAccount} disabled={formfilled}>
-          Submit
+          Add Account
         </Button>
       </Form>
     </div>
