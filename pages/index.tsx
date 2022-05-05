@@ -52,7 +52,7 @@ const MyVerticallyCenteredModal = ({index, show, updateFriendList ,onHide}: Moda
 
   const handleUpdate = (value: number) => {
     
-    if (name.length > 3 && walletAddress.length > 10 && email.includes("@")){
+    if (name.length > 3 && /^0x[a-fA-F0-9]{40}$/g.test(walletAddress)  && email.includes("@")){
       const wallet_details: Wallet = {
         id: value,
         wallet_name: name,
@@ -70,6 +70,17 @@ const MyVerticallyCenteredModal = ({index, show, updateFriendList ,onHide}: Moda
         progress: 100,
         });
       updateFriendList()
+      setTimeout(()=> {toast.dismiss()},1000)
+    }else{
+      toast.success('Please check your ethereum wallet address', {
+        position: "top-right",
+        autoClose: 5000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: 100,
+        });
       setTimeout(()=> {toast.dismiss()},1000)
     }
     
@@ -158,7 +169,8 @@ const WalletForm = () => {
   }
 
   const handleAddAccount = (event: MouseEvent<HTMLButtonElement>) => {
-    if(!walletAddress.match("/^0x[a-fA-F0-9]{40}$/g")){
+   
+    if(! /^0x[a-fA-F0-9]{40}$/g.test(walletAddress)){
       toast.error('Incorrect Wallet Address', {
         position: "top-right",
         autoClose: 5000,
@@ -225,11 +237,11 @@ const updateFriendList = useCallback(() => {
   
   
   useEffect(()=> {
-    if (name.length > 3 && walletAddress.length > 10 && email.includes("@")){
+    if (name.length > 3 && /^0x[a-fA-F0-9]{40}$/g.test(walletAddress) && email.includes("@")){
         setFormFilled(false)
     }
     updateFriendList()
-  }, [email, name.length, updateFriendList, walletAddress.length])
+  }, [email, name.length, updateFriendList, walletAddress])
  
   const handleDelete = (index: number) => {
     let item = localStorage.getItem(index.toString())
